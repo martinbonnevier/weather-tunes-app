@@ -1,0 +1,74 @@
+<%- include('../partials/head') %>
+  <%- include('../partials/header') %>
+
+    <body>
+      <div id="container">
+        <main>
+          <jumbotron class="text-center">
+            <h1 class="display-4">Sense Hat Readings</h1>
+            <div class="text-center">
+            <div id="info">
+              <p>Readings total: <%=count%>
+              </p>
+              <p>
+                Uptime: <%=uptime.days %> days, <%=uptime.hours %> hours, <%=uptime.minutes %> minutes
+              </p>
+            </div>
+          </div>
+            <h2 class="display-5" id="typeAndTimespan">
+              <%= type %> - <%= timeSpan %> 
+                  <%=date%>
+            </h2>
+            <div id="chartMargin">
+              <div class="ct-chart ct-perfect-fourth" id="chartDiv"></div>
+            </div>
+
+            <script>
+              let data = {
+                labels: [      
+                ],
+                series: [
+                  [<%= data %>],
+                ]
+              };
+              let options = {
+                ticks: [<%= labels %>],
+                showPoint: false,
+                lineSmooth: true,
+                scaleMinSpace: true,
+                axisX: {
+                  showGrid: false,
+                  showLabel: true,
+                }
+              };
+
+              new Chartist.Line('.ct-chart', data, options);
+            </script>
+            <script src="/js/chartist.js"></script>
+            </br>
+            <div class="text-center">
+              <h5>Choose a date for full readings</h5>
+              <div class="dropdown">
+                <button class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Date
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <% calendarDates.forEach(function(date) { %>
+                    <li class="dropdown-item"><a
+                        href="/fullday<%=JSON.stringify(date.dateString)%>, <%=type%>, <%=JSON.stringify(date.year)%>, <%=JSON.stringify(date.month)%>, <%=JSON.stringify(date.day)%>)">
+                        <%=(date.dateString)%>
+                          </a< /li>
+                          <% }) %>
+                </ul>
+              </div>
+            </div>
+            <div class="text-center">
+              <a href="#top" class="btn btn-primary" id="backToTop">Back to top!</a>
+            </div>
+          </jumbotron>
+        </main>
+      </div>
+    </body>
+    <%- include('../partials/footer') %>
